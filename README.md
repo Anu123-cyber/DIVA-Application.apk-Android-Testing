@@ -35,8 +35,10 @@ From cmd -  adb shell monkey -p jakhar.aseem.diva -c android.intent.category.LAU
 After successfully installing it, we can see it in our android device.
 
 ![Insecure Logging](Screenshot%202025-07-05%20164921.png)
+
  
 **1. INSECURE LOGGING**
+
 ![Screenshot](Screenshot%202025-07-05%20165604.png)
 
 ![Screenshot](Screenshot%202025-07-05%20165158.png)
@@ -49,6 +51,7 @@ From the image above, we can see that the insecure logging is happening in the p
 ![Screenshot](Screenshot%202025-07-07%20114320.png)
  
 Conclusion: It shows that the logging of credentials or sensitive information is not secured, making it available to anyone going through the logs of the device.
+
 
 **2. HARCODING ISSUES — PART 1**
 
@@ -97,6 +100,7 @@ Anusha – name inserted by the user
 123456 – password given by the user
 Conclusion: Storing credentials in plain text is referred to as an insecure way of storing data.
 
+
 **4. INSECURE DATA STORAGE — PART 2**
 
 First, we are going to use Jadx-gui to analyze the source code to find the vulnerability of the application.
@@ -124,6 +128,7 @@ See table structure - .schema myuser
 View stored data - SELECT * FROM myuser;
 Output with user entered credentials - Followup|abcdef1234
 That’s the insecurely stored username and password from the DIVA challenge. 
+
 **OR**
 
 To read the sql format in ids2, exit the root access to the android device and pull the file to your system.
@@ -155,6 +160,7 @@ Next, use cat uinfo931559435tmp to print the file content to a standard output.
  
 Conclusion: From the image above, we can see the user credentials present in the location we got when using Jadx-gui.
 
+
 **6. INSECURE DATA STORAGE — PART 4**
 
 ![Screenshot](Screenshot%202025-07-08%20161027.png)
@@ -184,6 +190,7 @@ Run cat uinfo.txt to print out the content of the file to a standard output.
  
 Conclusion: We can see that if we use ls to list the items in the directory, we won’t see uinfo.txt. Therefore, it is advised to try both commands if we suspect the file is in that directory.
 
+
 **7. INPUT VALIDATION ISSUES — PART 1**
 
 ![Screenshot](Screenshot%202025-07-08%20172031.png)
@@ -204,6 +211,7 @@ Now, let’s use SQL injection to bypass the search validation and get all three
  
 This challenge is about accessing sensitive information using the file path of the sensitive information. Tried the file path from the previous challenge (vuln 6).
 ![Screenshot](Screenshot%202025-07-08%20174029.png)
+
 
 ## 🧾 Key Findings
 
