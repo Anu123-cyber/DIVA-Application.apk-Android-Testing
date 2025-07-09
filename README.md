@@ -25,13 +25,15 @@ Downlaod DivaApplication.apk from github
  
 Step1 - Navigate to the folder where DivaApplication.apk is located
 cd "C:\Users\meeni\Downloads\diva-apk-file-main\diva-apk-file-main"
+
 Step2 – Install the APK into emulator
 Run: adb install DivaApplication.apk
 Output shows success.
+
 Step3 – Launch DIVA in emulator
 From cmd -  adb shell monkey -p jakhar.aseem.diva -c android.intent.category.LAUNCHER 
 After successfully installing it, we can see it in our android device.
-![Insecure Logging ](Screenshot%insecure-logging-2.png)
+
 ![Insecure Logging](Screenshot%202025-07-05%20164921.png)
  
 **1. INSECURE LOGGING**
@@ -55,9 +57,12 @@ First, you use Jadx-gui to find the location of the vulnerable code in the sourc
  
 From the image above, when a user inserts the vendor key, the user will get a response depending on the outcome of the vendor key. If the vendor is equal to vendorsecretkey, it will display Access granted! See you on the other side; otherwise, it displays Access Denied! See you in hell!
 From this explanation, we can see that the developer made it easy for anyone who has access to the source code by leaving the correct vendor key in the source code of the application.
+
 ![Screenshot](Screenshot%202025-07-07%20121249.png) 
+
 This is the feedback the user get when successfully logged in with the right vendor key.
 This is the feedback the user get when successfully logged in with the wrong vendor key.
+
 ![Screenshot](Screenshot%202025-07-07%20121429.png)
 
 
@@ -67,6 +72,7 @@ Using Jadx-gui to read the source code of the application, we can see the direct
 spedit.putString("user", usr.getText().toString()); - This is where the username of the user will be located
 spedit.putString("password", pwd.getText().toString()); - This is where the user password can be found
 SharedPreferences spref = PreferenceManager.getDefaultSharedPreferences(this); - the directory of the stored credentials
+
 ![Screenshot](Screenshot%202025-07-07%20121828.png)
 
 The image below shows the details provided by the user and the response received after clicking the save button.
@@ -75,14 +81,18 @@ The image below shows the details provided by the user and the response received
 Run adb shell to gain root access to the Android device and ls to list all the files in the directory.
 Next, run cd data/data/ to enter the directory and ls to list all the files in the directory.
 ![Screenshot](Screenshot%202025-07-07%20124615.png) 
+
 Run cd jakhar.aseem.diva to enter the directory and ls to list the files in the directory.
 ![Screenshot](Screenshot%202025-07-07%20124822.png)
  
 From the image above, we found the shared preferences directory
 To access the directory, run cd shared_prefs and ls to list the items in the directory.
+
 ![Screenshot](Screenshot%202025-07-07%20125122.png) 
+
 Now, run cat jakhar.aseem.diva_preferences.xml to read the xml file.
 ![Screenshot](Screenshot%202025-07-07%20125347.png) 
+
 Anusha – name inserted by the user
 123456 – password given by the user
 Conclusion: Storing credentials in plain text is referred to as an insecure way of storing data.
@@ -104,8 +114,10 @@ Run ls -la to list all the files and items in the directory.
  
 To read the sql format in ids2, exit the root access to the android device and pull the file to your system.
 Run adb pull /data/data/jakhar.aseem.diva/databases/ids2
+
 ![Screenshot](screenshot%202025-07-07%20175348.png)
-![Screenshot](Screenshot%202025-07-07%20175023.png)  
+![Screenshot](Screenshot%202025-07-07%20175023.png) 
+
 Open the database with sqlite CLI using -  sqlite3 ids2.db
 Check available tables -  .tables
 See table structure - .schema myuser
@@ -113,6 +125,7 @@ View stored data - SELECT * FROM myuser;
 Output with user entered credentials - Followup|abcdef1234
 That’s the insecurely stored username and password from the DIVA challenge. 
 **OR**
+
 To read the sql format in ids2, exit the root access to the android device and pull the file to your system.
 Run adb pull /data/data/jakhar.aseem.diva/databases/ids2
 ![Screenshot](Screenshot%202025-07-08%20151844.png)
