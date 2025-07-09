@@ -16,7 +16,9 @@ Open powershell/cmd and run the following command
 
 I used Android Debug Bridge (adb) to verify my emulator is running.
 Android Debug Bridge (adb) is a versatile command-line tool that lets you communicate with a device. The adb command facilitates a variety of device actions, such as installing and debugging apps, and it provides access to a Unix shell that you can use to run a variety of commands on a device.
+
 Step-by-Step: Load DIVA into Emulator:
+
 Downloaded emulator which is suitable to test DivaApplication.
 ![Screenshot](Screenshot%202025-07-07%20182250.png)
 
@@ -62,10 +64,14 @@ Conclusion: It shows that the logging of credentials or sensitive information is
 **2. HARCODING ISSUES — PART 1**
 
 ![Screenshot](Screenshot%202025-07-07%20115434.png) 
+
+
 First, you use Jadx-gui to find the location of the vulnerable code in the source code of the application.
- 
+
+
 From the image above, when a user inserts the vendor key, the user will get a response depending on the outcome of the vendor key. If the vendor is equal to vendorsecretkey, it will display Access granted! See you on the other side; otherwise, it displays Access Denied! See you in hell!
 From this explanation, we can see that the developer made it easy for anyone who has access to the source code by leaving the correct vendor key in the source code of the application.
+
 
 ![Screenshot](Screenshot%202025-07-07%20121249.png) 
 
@@ -138,7 +144,8 @@ Run ls -la to list all the files and items in the directory.
 To read the sql format in ids2, exit the root access to the android device and pull the file to your system.
 Run adb pull /data/data/jakhar.aseem.diva/databases/ids2
 
-![Screenshot](screenshot%202025-07-07%20175348.png)
+![Screenshot](Screenshot%202025-07-07%20175348.png)
+
 ![Screenshot](Screenshot%202025-07-07%20175023.png) 
 
 Open the database with sqlite CLI using -  sqlite3 ids2.db
