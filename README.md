@@ -37,18 +37,24 @@ After successfully installing it, we can see it in our android device.
 ![Insecure Logging](Screenshot%202025-07-05%20164921.png)
 
  
+
 **1. INSECURE LOGGING**
 
 ![Screenshot](Screenshot%202025-07-05%20165604.png)
 
+
 ![Screenshot](Screenshot%202025-07-05%20165158.png)
  
+
+
  
 First, I used Jadx-gui to read the source code to find the vulnerable code causing the insecure logging.
 
 From the image above, we can see that the insecure logging is happening in the public void section. When the user inputs their credentials, they are stored in diva-log and converted to strings, making them visible to plain eyes and anyone who gets access to diva-log.
  
 ![Screenshot](Screenshot%202025-07-07%20114320.png)
+
+
  
 Conclusion: It shows that the logging of credentials or sensitive information is not secured, making it available to anyone going through the logs of the device.
 
@@ -63,10 +69,12 @@ From this explanation, we can see that the developer made it easy for anyone who
 
 ![Screenshot](Screenshot%202025-07-07%20121249.png) 
 
+
 This is the feedback the user get when successfully logged in with the right vendor key.
 This is the feedback the user get when successfully logged in with the wrong vendor key.
 
 ![Screenshot](Screenshot%202025-07-07%20121429.png)
+
 
 
 **3. INSECURE DATA STORAGE — PART 1**
@@ -76,25 +84,32 @@ spedit.putString("user", usr.getText().toString()); - This is where the username
 spedit.putString("password", pwd.getText().toString()); - This is where the user password can be found
 SharedPreferences spref = PreferenceManager.getDefaultSharedPreferences(this); - the directory of the stored credentials
 
+
 ![Screenshot](Screenshot%202025-07-07%20121828.png)
+
 
 The image below shows the details provided by the user and the response received after clicking the save button.
 ![Screenshot](Screenshot%202025-07-07%20123432.png)
  
+
 Run adb shell to gain root access to the Android device and ls to list all the files in the directory.
 Next, run cd data/data/ to enter the directory and ls to list all the files in the directory.
 ![Screenshot](Screenshot%202025-07-07%20124615.png) 
 
+
 Run cd jakhar.aseem.diva to enter the directory and ls to list the files in the directory.
 ![Screenshot](Screenshot%202025-07-07%20124822.png)
  
+
 From the image above, we found the shared preferences directory
 To access the directory, run cd shared_prefs and ls to list the items in the directory.
 
 ![Screenshot](Screenshot%202025-07-07%20125122.png) 
 
+
 Now, run cat jakhar.aseem.diva_preferences.xml to read the xml file.
 ![Screenshot](Screenshot%202025-07-07%20125347.png) 
+
 
 Anusha – name inserted by the user
 123456 – password given by the user
@@ -110,12 +125,16 @@ From the image above, we can see the location of the stored credentials and the 
 Before gaining root access on the device, we are going to insert user credentials to get something saved in the databases and then locate it.
 
 ![Screenshot](Screenshot%202025-07-07%20153839.png) 
+
+
 First, gain root access to the device using the adb shell. Then, run cd data/data/jakhar.aseem.diva/databases/ to the directory and ls to list the items in the directory.
 ![Screenshot](Screenshot%202025-07-07%20155330.png)
+
 
 Run ls -la to list all the files and items in the directory.
 ![Screenshot](Screenshot%202025-07-07%20155516.png)
  
+
 To read the sql format in ids2, exit the root access to the android device and pull the file to your system.
 Run adb pull /data/data/jakhar.aseem.diva/databases/ids2
 
@@ -135,12 +154,17 @@ To read the sql format in ids2, exit the root access to the android device and p
 Run adb pull /data/data/jakhar.aseem.diva/databases/ids2
 ![Screenshot](Screenshot%202025-07-08%20151844.png)
  
+
 And use sqlite viewer to read the ids2 file, click here to go the website.
 ![Screenshot](Screenshot%202025-07-08%20151957.png)
  
+
 Drag and drop the ids2 file, and change the android_metadata to myuser to view the credentials.
+
 ![Screenshot](Screenshot%202025-07-08%20152102.png)
+
 ![Screenshot](Screenshot%202025-07-08%20152148.png)
+
 ![Screenshot](Screenshot%202025-07-08%20151651.png)
  
  
@@ -151,6 +175,7 @@ Drag and drop the ids2 file, and change the android_metadata to myuser to view t
  
 Using Jadx-gui read the source code to find the vulnerability.
 We found out that the application created a temp file named **uinfo**.
+
 ![Screenshot](Screenshot%202025-07-08%20153411.png)
  
  
@@ -169,23 +194,31 @@ Conclusion: From the image above, we can see the user credentials present in the
 Using Jadx-gui to read the source code of the application, I found out the location where the user credentials are being stored and the name of the file, which is on the external storage device on the Android phone.
  
 If we try to input any credential, we will get an error because the application has not been given the password to anything on the SD card.
+
 ![Screenshot](Screenshot%202025-07-08%20161027.png)
+
 ![Screenshot](Screenshot%202025-07-08%20161706.png)
   
 Change the storage permission of the application.
+
 ![Screenshot](Screenshot%202025-07-08%20161851.png)
+
 ![Screenshot](Screenshot%202025-07-08%20162045.png)
   
 To begin, run adb shell to gain root access of the device and ls to list all the items in the directory
+
 ![Screenshot](Screenshot%202025-07-08%20162433.png)
  
 Run cd mnt to access the external storage on the Android device and ls to list the items in the directory.
+
 ![Screenshot](Screenshot%202025-07-08%20162620.png)
  
 Next, run cd sdcard to enter the directory and ls -la to list all the items in the directory.
+
 ![Screenshot](Screenshot%202025-07-08%20162734.png)
 
 Run cat uinfo.txt to print out the content of the file to a standard output.
+
 ![Screenshot](Screenshot%202025-07-08%20162947.png)
  
 Conclusion: We can see that if we use ls to list the items in the directory, we won’t see uinfo.txt. Therefore, it is advised to try both commands if we suspect the file is in that directory.
@@ -196,12 +229,15 @@ Conclusion: We can see that if we use ls to list the items in the directory, we 
 ![Screenshot](Screenshot%202025-07-08%20172031.png)
  
 Using Jadx-gui to read the source code of the application, we will notice that this input validation is vulnerable to SQL injection. Also, we can see all three user credentials present in the database just by reading the source without digging deep, which is not a safe way to store credentials.
+
 ![Screenshot](Screenshot%202025-07-08%20172349.png)
  
 Tried giving a random user credential and see what response we get.
+
 ![Screenshot](Screenshot%202025-07-08%20172506.png)
  
 Now, let’s use SQL injection to bypass the search validation and get all three credentials in the database.
+
 ![Screenshot](Screenshot%202025-07-08%20172901.png)
  
 
@@ -210,6 +246,8 @@ Now, let’s use SQL injection to bypass the search validation and get all three
 ![Screenshot](Screenshot%202025-07-08%20173204.png)
  
 This challenge is about accessing sensitive information using the file path of the sensitive information. Tried the file path from the previous challenge (vuln 6).
+
+
 ![Screenshot](Screenshot%202025-07-08%20174029.png)
 
 
