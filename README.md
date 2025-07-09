@@ -9,8 +9,11 @@ Applications I will be using to carry out the vulnerability testing.
 4.	Jadx-gui
 5.	Apktool
 6.	Java runtime environment
+   
 How to install diva apk on the android device:
+
 Open powershell/cmd and run the following command
+
 I used Android Debug Bridge (adb) to verify my emulator is running.
 Android Debug Bridge (adb) is a versatile command-line tool that lets you communicate with a device. The adb command facilitates a variety of device actions, such as installing and debugging apps, and it provides access to a Unix shell that you can use to run a variety of commands on a device.
 Step-by-Step: Load DIVA into Emulator:
